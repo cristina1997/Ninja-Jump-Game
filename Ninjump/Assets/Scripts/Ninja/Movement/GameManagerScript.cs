@@ -29,7 +29,7 @@ public class GameManagerScript : MonoBehaviour
         }
 
         moveVector.Set(direction, 0, 0);
-        Debug.Log(direction);
+        //Debug.Log(direction);
     }
 
 }

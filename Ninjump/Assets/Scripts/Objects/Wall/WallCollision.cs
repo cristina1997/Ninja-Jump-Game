@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿// - Wall Collision:
+//      -> Collision Types Explained: https://www.youtube.com/watch?v=YQ7Umjp6R10
+//      -> Collision Detection: https://www.youtube.com/watch?v=W7ZtCEbeQEA
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
