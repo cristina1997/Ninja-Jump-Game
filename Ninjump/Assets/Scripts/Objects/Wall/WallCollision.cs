@@ -9,6 +9,7 @@ using UnityEngine;
 public class WallCollision : MonoBehaviour {
     public string LR_direction;
     public static int newDirection;
+    public static bool isWallCollision, facingRight;
     //GameManagerScript gameManager;
 
 	// Use this for initialization
@@ -24,6 +25,7 @@ public class WallCollision : MonoBehaviour {
         //Debug.Log(LR_direction);
         //Debug.Log(GameManagerScript.direction);
         //Debug.Log("New Direction: " + newDirection);
+        //Debug.Log(isWallCollision);
 
 
     }
@@ -33,11 +35,18 @@ public class WallCollision : MonoBehaviour {
         // Debug.Log("Collision");
         if (collision.gameObject.tag == "Player")
         {
+            isWallCollision = true;
             if (GameManagerScript.direction == 1)
+            {
+                facingRight = true;
                 newDirection = -1;
+            }
             else
+            {
+                facingRight = false;
                 newDirection = 1;
-       }
+            }
+        }
 
         //if(collision.gameObject.tag == "Player")
         //{
