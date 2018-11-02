@@ -18,6 +18,16 @@ public class NinjaMoveAuto : MonoBehaviour {
 	void Update () {
         // Debug.Log(GameManager.moveSpeed);
 
-        transform.Translate(Player.moveVector * Player.moveSpeed * Time.deltaTime);
+        // player can only move when isMoving is true
+        if (GameManagerScript.isMoving == true)
+        {
+            transform.Translate(Player.moveVector * Player.moveSpeed * Time.deltaTime);
+        }
+        
+
+        //if (WallCollision.canMove == true)
+        //{
+        //    transform.Translate(0 * Player.moveVector * Time.deltaTime);
+        //}
 	}
 }

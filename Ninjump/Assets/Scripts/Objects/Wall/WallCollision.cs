@@ -8,39 +8,28 @@ using UnityEngine;
 
 public class WallCollision : MonoBehaviour {
     public static int newDirection;                         // the new direction of the player's movement
-    public static bool isWallCollision;                     // true if the player collides with the wall
     public static bool isFacingRight;                       // true if the player is facing right
     //GameManagerScript gameManager;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         newDirection = GameManagerScript.direction;         // set new player's direction to 1 (right)
     }
-	
-	// Update is called once per frame
-	void Update () {
 
-        ////GameManagerScript.direction = newDirection;
-
-        //Debug.Log(LR_direction);
-        //Debug.Log(GameManagerScript.direction);
-        //Debug.Log("New Direction: " + newDirection);
-        //Debug.Log(isWallCollision);
-
-
-    }
-
+    // when collision happens  between 2 objects - Player and Wall in this case
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // if...    the object the wall collided with has the tag "Player"
-        //          - then a collision happened between the player and the wall
-        //          - player's direction changes
+       
+        // collision between this object (the wall) and the object with the "Player" tag
         if (collision.gameObject.tag == "Player")
         {
-            // collision between wall and player happened
-            isWallCollision = true;
+
+            // if...    change it from 1 (right) to -1 (left)
+            //          - and player is not facing right anymore
             if (GameManagerScript.direction == 1)
             {
+
                 newDirection = -1;
                 isFacingRight = false;
             }
@@ -52,16 +41,16 @@ public class WallCollision : MonoBehaviour {
                 isFacingRight = true;
             }
         }
-        // else...  no collision happened between the player and the wall
-        else
-        {
-            // collision between wall and player didn't happen
-            isWallCollision = false;
-        }
 
         //if(collision.gameObject.tag == "Player")
         //{
         //    Destroy(/*collision.*/gameObject);
         //}
     }
+
+
+
+
+
+
 }

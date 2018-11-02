@@ -8,6 +8,7 @@ public class WallJumping : MonoBehaviour
 {
     //private float distance = 1f;
     //private Vector2 pos;
+    private int tempDir;
 
     // Use this for initialization
     void Start()
@@ -18,6 +19,8 @@ public class WallJumping : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
         //Debug.Log("Player position" +pos);
         //if (WallCollision.isWallCollision == true)
         //{
