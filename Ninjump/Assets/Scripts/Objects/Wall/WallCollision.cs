@@ -7,14 +7,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class WallCollision : MonoBehaviour {
-    public string LR_direction;
-    public static int newDirection;
-    public static bool isWallCollision, facingRight;
+    public static int newDirection;                         // the new direction of the player's movement
+    public static bool isWallCollision;                     // true if the player collides with the wall
+    public static bool isFacingRight;                       // true if the player is facing right
     //GameManagerScript gameManager;
 
-	// Use this for initialization
-	void Start () {
-        newDirection = GameManagerScript.direction;
+    // Use this for initialization
+    void Start () {
+        newDirection = GameManagerScript.direction;         // set new player's direction to 1 (right)
     }
 	
 	// Update is called once per frame
@@ -32,20 +32,31 @@ public class WallCollision : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Debug.Log("Collision");
+        // if...    the object the wall collided with has the tag "Player"
+        //          - then a collision happened between the player and the wall
+        //          - player's direction changes
         if (collision.gameObject.tag == "Player")
         {
+            // collision between wall and player happened
             isWallCollision = true;
             if (GameManagerScript.direction == 1)
             {
-                facingRight = true;
                 newDirection = -1;
+                isFacingRight = false;
             }
+            // else...  change it from -1 (left) to 1 (right)
+            //          - and player is facing right
             else
             {
-                facingRight = false;
                 newDirection = 1;
+                isFacingRight = true;
             }
+        }
+        // else...  no collision happened between the player and the wall
+        else
+        {
+            // collision between wall and player didn't happen
+            isWallCollision = false;
         }
 
         //if(collision.gameObject.tag == "Player")
