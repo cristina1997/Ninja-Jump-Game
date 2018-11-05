@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 // Detect a near object
@@ -7,8 +8,7 @@ using UnityEngine;
 public class WallJumping : MonoBehaviour
 {
     //private float distance = 1f;
-    //private Vector2 pos;
-    private int tempDir;
+    //private Vector2 pos;    
 
     // Use this for initialization
     void Start()
@@ -20,15 +20,11 @@ public class WallJumping : MonoBehaviour
     void Update()
     {
 
-
-        //Debug.Log("Player position" +pos);
-        //if (WallCollision.isWallCollision == true)
-        //{
-        //    // Physics2D.gravity = Vector2.zero;
-        //}
     }
 
- 
+
+
 }
+
 
 
