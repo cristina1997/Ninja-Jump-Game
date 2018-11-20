@@ -7,15 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class WallCollision : MonoBehaviour {
-    public static int newDirection;                         // the new direction of the player's movement
     public static bool isFacingRight;                       // true if the player is facing right
-    //GameManagerScript gameManager;
-
-    // Use this for initialization
-    void Start()
-    {
-        newDirection = GameManagerScript.direction;         // set new player's direction to 1 (right)
-    }
 
     // when collision happens  between 2 objects - Player and Wall in this case
     private void OnCollisionEnter2D(Collision2D collision)
@@ -29,14 +21,12 @@ public class WallCollision : MonoBehaviour {
             //          - and player is not facing right anymore
             if (GameManagerScript.direction == 1)
             {
-                newDirection = -1;
                 isFacingRight = true;
             }
             // else...  change it from -1 (left) to 1 (right)
             //          - and player is facing right
             else
             {
-                newDirection = 1;
                 isFacingRight = false;
             }
         }

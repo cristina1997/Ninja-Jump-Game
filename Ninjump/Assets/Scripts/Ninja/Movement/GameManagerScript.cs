@@ -14,27 +14,22 @@ public class GameManagerScript : MonoBehaviour
     public float moveSpeed;                                 // how fast the player moves
     public Vector2 moveVector;                              // pass positions and directions around.
     public static int direction;                            // representation of 2D vectors and points on two axis x&y.
-    public static bool isMoving;                            // used to tell if player can or can't move depending on what's colliding with
-    public static bool canJumpOnWall;                             // used to tell if player can or can't move depending on what's colliding with
+    public bool isMoving;                                   // used to tell if player can or can't move depending on what's colliding with
 
     // Jump Variables
     Rigidbody2D _rigidbody2D;                               // 2D sprites physics component
+    private bool canJumpOnWall;                             // used to tell if player can or can't move depending on what's colliding with
+    private float jumpFloorHeight;                           // how high player can jump off the floor
+    private float jumpWallHeight;                            // how high player can jump off the wall
+    private float jumpPushForce;                             // the force by which player jumps sideways   
 
-    public float jumpWallHeight;                            // how high player can jump off the wall
-    private bool isGrounded;                                // detect if character is standing on the ground
+
+    public bool isGrounded;                                // detect if character is standing on the ground
     public Transform groundCheck;                           // takes object underneath player's feet to detect if grounded
     public float checkRadiusGround;                         // radius of the circle underneath the player's feet that detects if the player is grounded
     public LayerMask whatIsGround;                          // uses only object with a chosen layer value
 
-    public float jumpFloorHeight;                           // how high player can jump off the floor
-    public float jumpPushForce;                             // the force by which player jumps sideways
-    private bool isWalledR;                                 // detect if character is on the right wall
-    private bool isWalledL;                                 // detect if character is on the left wall
-    private bool isWalledFinal;                             // detect if character is on the left or right wall
-    public Transform wallCheckR;                            // takes object at the right of the player to detect if walled
-    public Transform wallCheckL;                            // takes object at the left of the player to detect if walled
-    public float checkRadiusWall;                           // radius of the circle underneath the player's feet that detects if the player is walled
-    public LayerMask whatIsWall;                            // uses only object with a chosen layer value
+
 
     // Set the starting values
     void Awake()
@@ -43,10 +38,9 @@ public class GameManagerScript : MonoBehaviour
         moveSpeed = 150f;
 
         checkRadiusGround = 0.5f;
-        jumpWallHeight = 500 * 2;
-
-        checkRadiusWall = 0.5f;
         jumpFloorHeight = 40;
+
+        jumpWallHeight = 500 * 2;
         jumpPushForce = 5;
 
         isMoving = true;
@@ -65,32 +59,16 @@ public class GameManagerScript : MonoBehaviour
 
         // check if the player is on the ground
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadiusGround, whatIsGround);
-
-        // check if the player is on the right wall
-        isWalledR = Physics2D.OverlapCircle(wallCheckR.position, checkRadiusWall, whatIsWall);
-        // check if the player is on the left wall
-        isWalledL = Physics2D.OverlapCircle(wallCheckL.position, checkRadiusWall, whatIsWall);
-
-        // if the player is on either the right or left wall 
-        // then the player touched the wall and isWalledFinal comes out true
-        if (isWalledL || isWalledR)
-        {
-            
-            isWalledFinal = true;
-        }
-
-        
     }
-    
+
     void Update()
     {
         ChangeDirection();
-        Jump();
+        Jump();  
     }
 
     private void Jump()
     {
-        // float move = Input.GetAxis("Horizontal"); 
 
         // player jumps if the space key is pressed and if the player is on the ground or on the wall
         if (Input.GetKey(KeyCode.Space) /*Input.simulateMouseWithTouches*/ /*Input.touchCount == 1*/)
@@ -100,10 +78,8 @@ public class GameManagerScript : MonoBehaviour
                 FloorJump();
 
             }
-            else if (canJumpOnWall == true/*isWalledFinal == true*/)
+            else if (canJumpOnWall == true)
             {
-                //WallJumping.Jump();
-
                 WallJump();
             }
 
@@ -117,10 +93,9 @@ public class GameManagerScript : MonoBehaviour
         //_rigidbody2D.AddForce(new Vector2(jumpSide, jumpHeight));
 
         _rigidbody2D.velocity += Vector2.up * jumpFloorHeight;
-        GravityScale();
+        GravityScale();                                        // method that gives gravity scale a value
 
     }
-
  
     private void WallJump()
     {
@@ -131,12 +106,12 @@ public class GameManagerScript : MonoBehaviour
         {
             if (WallCollision.isFacingRight == true)
             {
-                //Debug.Log("Facing Right");
+                // if the player is facing left then jump left
                 _rigidbody2D.AddForce(new Vector2(-jumpPushForce, jumpWallHeight));
             }
             else if (WallCollision.isFacingRight == false)
             {
-                //Debug.Log("Facing Left");
+                // if the player is facing left then jump right
                 _rigidbody2D.AddForce(new Vector2(jumpPushForce, jumpWallHeight));
             }
 
@@ -147,11 +122,17 @@ public class GameManagerScript : MonoBehaviour
     private void ChangeDirection()
     {
         // if the new direction of the player is not 0, then change the player's direction
-        if (WallCollision.newDirection != 0)
+        if (direction != 0)
         {
-            // get the new direction of the player from the WallCollision class
-            // left or right, depending on whether or not the wall was hit
-            direction = WallCollision.newDirection;
+            // get the  direction of the player from the WallCollision class
+            // according to whether or not the player is facing right or not
+            if (WallCollision.isFacingRight)
+            {
+                direction = -1;
+            }
+            else if (!WallCollision.isFacingRight) {
+                direction = 1;
+            }
         }
 
         // set the player's current direction to the updated one
@@ -165,17 +146,16 @@ public class GameManagerScript : MonoBehaviour
         {
             isMoving = false;                                   // can't move
             canJumpOnWall = true;                               // can jump
-            PlayerStops();                                      // player stops all movement, gravity included
+            PlayerStops();                                      // method that stops player movement, gravity included
         } 
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        // when the player dosn't hit the wall then it moves and it can't jump
-        isMoving = true;                                    // can move
-        canJumpOnWall = false;                              // can't jump
-        GravityScale();
-
+        // when the player doesn't hit the wall then it moves and it can't jump
+        isMoving = true;                                        // can move
+        canJumpOnWall = false;                                  // can't jump
+        GravityScale();                                        // method that gives gravity scale a value
     }
 
     private void PlayerStops()
@@ -184,13 +164,14 @@ public class GameManagerScript : MonoBehaviour
         _rigidbody2D.velocity = Vector2.zero;
 
         // player gravity stops - see source code above
-        this._rigidbody2D.gravityScale = 0.0f;
+        this._rigidbody2D.gravityScale = 0.0f;        
+
     }
 
     private void GravityScale()
     {
         // player gravity starts again
-        this._rigidbody2D.gravityScale = 35f;
+        this._rigidbody2D.gravityScale = 25f;
     }
     
 }

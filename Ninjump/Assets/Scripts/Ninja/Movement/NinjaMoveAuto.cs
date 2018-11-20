@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class NinjaMoveAuto : MonoBehaviour {
-    GameManagerScript Player;
+    private GameManagerScript Player;
 
 	// Use this for initialization
 	void Start () {
@@ -19,7 +19,7 @@ public class NinjaMoveAuto : MonoBehaviour {
         // Debug.Log(GameManager.moveSpeed);
 
         // player can only move when isMoving is true
-        if (GameManagerScript.isMoving == true)
+        if (Player.isMoving == true)
         {
             transform.Translate(Player.moveVector * Player.moveSpeed * Time.deltaTime);
         }
