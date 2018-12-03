@@ -19,7 +19,7 @@ public class WallCollision : MonoBehaviour {
 
             // if...    change it from 1 (right) to -1 (left)
             //          - and player is not facing right anymore
-            if (GameManagerScript.direction == 1)
+            if (PlayerScript.direction == 1)
             {
                 isFacingRight = true;
             }

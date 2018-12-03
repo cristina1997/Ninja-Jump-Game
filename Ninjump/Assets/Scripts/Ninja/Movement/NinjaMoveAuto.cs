@@ -6,12 +6,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class NinjaMoveAuto : MonoBehaviour {
-    private GameManagerScript Player;
+    private PlayerScript Player;
 
 	// Use this for initialization
 	void Start () {
         GameObject gameController = GameObject.FindGameObjectWithTag("Player");
-        Player = gameController.GetComponent<GameManagerScript>();
+        Player = gameController.GetComponent<PlayerScript>();
     }
 	
 	// Update is called once per frame
