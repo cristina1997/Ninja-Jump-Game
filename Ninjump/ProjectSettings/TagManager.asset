@@ -8,6 +8,7 @@ TagManager:
   - Floor
   - Ceiling
   - Fireball
+  - Pause
   layers:
   - Default
   - TransparentFX

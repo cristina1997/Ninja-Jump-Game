@@ -4,12 +4,20 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour {
-    public void PlayGame()
+    private int currentScene;
+
+    private void Start()
     {
-        SceneManager.LoadScene(1);
+        currentScene = NextLevel.pauseLevel;
     }
 
-    public void Controls()
+    public void PlayGame()
+    {
+        //currentScene = 
+        SceneManager.LoadScene(currentScene);
+    }
+
+    public void MainMenu()
     {
         SceneManager.LoadScene(6);
     }

@@ -24,10 +24,5 @@ public class NinjaMoveAuto : MonoBehaviour {
             transform.Translate(Player.moveVector * Player.moveSpeed * Time.deltaTime);
         }
         
-
-        //if (WallCollision.canMove == true)
-        //{
-        //    transform.Translate(0 * Player.moveVector * Time.deltaTime);
-        //}
 	}
 }
