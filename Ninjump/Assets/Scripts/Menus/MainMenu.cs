@@ -13,7 +13,12 @@ public class MainMenu : MonoBehaviour {
 
     public void Levels()
     {
-        SceneManager.LoadScene(4);
+        SceneManager.LoadScene(6);
+    }
+
+    public void Controls()
+    {
+        SceneManager.LoadScene(7);
     }
 
     public void QuitGame()

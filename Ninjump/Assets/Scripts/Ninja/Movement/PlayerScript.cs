@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour {
-
+    private const int EXTRA_JUMP = 1;
+    private const float HIGH_SPEED = 150f;
+    private const float LOW_SPEED = 50f;
     // Movement Variables
     public float moveSpeed;                                 // how fast the player moves
     public Vector2 moveVector;                              // pass positions and directions around.
@@ -11,12 +13,12 @@ public class PlayerScript : MonoBehaviour {
     public bool isMoving;                                   // used to tell if player can or can't move depending on what's colliding with
 
     // Jump Variables
-    Rigidbody2D _rigidbody2D;                               // 2D sprites physics component
+    private Rigidbody2D _rigidbody2D;                               // 2D sprites physics component
     private bool canJumpOnWall;                             // used to tell if player can or can't move depending on what's colliding with
     private float jumpFloorHeight;                           // how high player can jump off the floor
     private float jumpWallHeight;                            // how high player can jump off the wall
     private float jumpPushForce;                             // the force by which player jumps sideways   
-
+    private int jumpCount;
 
     public bool isGrounded;                                // detect if character is standing on the ground
     public Transform groundCheck;                           // takes object underneath player's feet to detect if grounded
@@ -29,7 +31,7 @@ public class PlayerScript : MonoBehaviour {
     void Awake()
     {
         direction = 1;
-        moveSpeed = 150f;
+        moveSpeed = HIGH_SPEED;
 
         checkRadiusGround = 0.5f;
         jumpFloorHeight = 40;
@@ -57,26 +59,53 @@ public class PlayerScript : MonoBehaviour {
     void Update()
     {
         ChangeDirection();
-        Jump();
+        if (Blocker.isJumpingExtra == true)
+        {
+            moveSpeed = LOW_SPEED;
+            isMoving = false;
+            if (isMoving == false)
+            {
+                ExtraJump();
+            }
+
+        } else if (Blocker.isJumpingExtra == false) {
+            Jump();
+        }      
+    }
+
+
+    private void ExtraJump()
+    {
+        if (Input.GetKey(KeyCode.Space) && isGrounded == true) /*Input.simulateMouseWithTouches*/ /*Input.touchCount == 1*/
+        {
+            isMoving = true;
+            for (jumpCount = 0; jumpCount < EXTRA_JUMP; jumpCount++)
+            {
+                _rigidbody2D.velocity += Vector2.up * jumpFloorHeight;
+                GravityScale();
+            }
+
+        }
     }
 
     private void Jump()
     {
+        moveSpeed = HIGH_SPEED;
+
 
         // player jumps if the space key is pressed and if the player is on the ground or on the wall
-        if (Input.GetKey(KeyCode.Space) /*Input.simulateMouseWithTouches*/ /*Input.touchCount == 1*/)
+        if (Input.GetKey(KeyCode.Space)) /*Input.simulateMouseWithTouches*/ /*Input.touchCount == 1*/
         {
+
             if (isGrounded == true)
             {
                 FloorJump();
-
             }
             else if (canJumpOnWall == true)
             {
                 WallJump();
             }
-
-        }
+        } 
     }
 
     private void FloorJump()
@@ -142,7 +171,7 @@ public class PlayerScript : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // when the player hits the wall then it stops moving and it's allowed to jump
-        if (collision.gameObject.tag == "Wall")
+        if (collision.gameObject.tag == "Wall" )
         {
             isMoving = false;                                   // can't move
             canJumpOnWall = true;                               // can jump
@@ -158,7 +187,7 @@ public class PlayerScript : MonoBehaviour {
         GravityScale();                                        // method that gives gravity scale a value
     }
 
-    private void PlayerStops()
+    public void PlayerStops()
     {
         // player's movement stops - see source code above
         _rigidbody2D.velocity = Vector2.zero;

@@ -7,22 +7,22 @@ using UnityEngine;
 
 public class NinjaMoveAuto : MonoBehaviour {
     private PlayerScript Player;
+    private GameObject gameController;
 
-	// Use this for initialization
-	void Start () {
-        GameObject gameController = GameObject.FindGameObjectWithTag("Player");
+    // Use this for initialization
+    void Start () {
+        gameController = GameObject.FindGameObjectWithTag("Player");
         Player = gameController.GetComponent<PlayerScript>();
     }
 	
 	// Update is called once per frame
 	void Update () {
-        // Debug.Log(GameManager.moveSpeed);
 
         // player can only move when isMoving is true
         if (Player.isMoving == true)
         {
             transform.Translate(Player.moveVector * Player.moveSpeed * Time.deltaTime);
         }
-        
-	}
+
+    }
 }

@@ -13,7 +13,6 @@ public class PauseMenu : MonoBehaviour {
 
     public void PlayGame()
     {
-        //currentScene = 
         SceneManager.LoadScene(currentScene);
     }
 
