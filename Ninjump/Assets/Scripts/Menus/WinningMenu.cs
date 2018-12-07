@@ -3,20 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PauseMenu : MonoBehaviour {
-    private int currentScene;
+public class WinningMenu : MonoBehaviour {
 
-    private void Start()
-    {
-        currentScene = NextLevel.pauseLevel;
-    }
 
     public void PlayGame()
     {
-        SceneManager.LoadScene(currentScene);
+        SceneManager.LoadScene(1);
     }
 
-    public void MainMenu()
+    public void Levels()
     {
         SceneManager.LoadScene(6);
     }

@@ -4,13 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FireballMovement : MonoBehaviour {
+    // Collision variables
+    PlayerScript Player;
+
+    // Movement Variables
     public static Vector2 originalPos;
     private float speed = 100f;
-    PlayerScript Player;
 
     private void Start()
     {
-        originalPos = new Vector2(this.gameObject.transform.position.x, this.gameObject.transform.position.y);
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
     }
 
@@ -22,6 +24,7 @@ public class FireballMovement : MonoBehaviour {
 
     private void Movement()
     {
+        // move the fireball
         transform.position = new Vector2(transform.position.x + (speed * Time.deltaTime), transform.position.y);
     }
 

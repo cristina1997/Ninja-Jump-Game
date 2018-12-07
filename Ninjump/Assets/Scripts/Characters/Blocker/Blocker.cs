@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Blocker : MonoBehaviour
 {
-    public static bool isJumpingExtra, isBlocked;
+    // Collision variable
+    public static bool isJumpingExtra;
 
     // Use this for initialization
     void Start()
@@ -12,8 +13,11 @@ public class Blocker : MonoBehaviour
         isJumpingExtra = false;
     }
 
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        // If the spikes come into contact with 
+        // an object containing the "Player" tag then that object should have the ability of an extra jump
         if (collision.gameObject.tag == "Player")
         {
             isJumpingExtra = true;
@@ -22,6 +26,8 @@ public class Blocker : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
+        // If the spikes exits the contact with 
+        // an object containing the "Player" tag then that object should lose the ability of an extra jump
         if (collision.gameObject.tag == "Player")
         {
             isJumpingExtra = false;

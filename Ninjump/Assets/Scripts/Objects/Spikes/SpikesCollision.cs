@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SpikesCollision : MonoBehaviour {
+    // Collision variables
     PlayerScript Player;
 
     private void Start()

@@ -21,6 +21,7 @@ public class NinjaMoveAuto : MonoBehaviour {
         // player can only move when isMoving is true
         if (Player.isMoving == true)
         {
+            // move the player
             transform.Translate(Player.moveVector * Player.moveSpeed * Time.deltaTime);
         }
 
